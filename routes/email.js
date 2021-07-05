@@ -4,7 +4,10 @@ let sendEmail = require('../functions/sendEmail')
 
 function sendEmailEachXTime(app) {
 
-    let timeToSend = 10000
+    //Sending time each {timeToSend} milisseconds
+
+    //6 seconds using for tests
+    let timeToSend = 6000
 
     setInterval(function () {
         sendEmail.send(app)
@@ -22,7 +25,11 @@ module.exports = function (app) {
         let sqlQuery = 'select * from emails'
 
         connection.query(sqlQuery, function (error, result) {
-            res.status(200).send(error ?? result)
+            if(error){
+                res.status(400).send(error)
+            } 
+            
+            res.status(200).send(result)
         })
     })
 

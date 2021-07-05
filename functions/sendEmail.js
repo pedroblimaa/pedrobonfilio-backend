@@ -1,3 +1,4 @@
+const { resolveInclude } = require('ejs');
 let nodemailer = require('nodemailer');
 
 exports.send = function (app) {
@@ -15,7 +16,15 @@ exports.send = function (app) {
     })
 
     connection.query(sqlQuery, function (error, result) {
-        let emails = error ?? result
+        let emails = error ? error : result
+
+        if (error) {
+            return 'Erro na conexão com o banco: ' + error
+        }
+
+        if (!(result.length > 0)) {
+            return
+        }
 
         var mailOptions = {
             from: process.env.EMAIL_USER,
