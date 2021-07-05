@@ -1,50 +1,13 @@
 
 let nodemailer = require('nodemailer');
-
-function sendEmail(app) {
-
-    let connection = app.config.mysql()
-
-    let sqlQuery = 'select * from emails'
-
-    let emails;
-
-    connection.query(sqlQuery, function (error, result) {
-        emails =  error ?? result
-    })
-
-    console.log(emails)
-
-    // var transporter = nodemailer.createTransport({
-    //     service: 'gmail',
-    //     auth: {
-    //         user: 'pedroblimaa@gmail.com',
-    //         pass: 'anxybsvgzlqmeixa'
-    //     }
-    // })
-
-    // var mailOptions = {
-    //     from: 'pedroblimaa@gmail.com',
-    //     to: 'pedroblimaa@gmail.com',
-    //     subject: 'Sending Email using Node.js',
-    //     text: 'That was easy!'
-    // }
-
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //     if (error) {
-    //         console.log(error);
-    //     } else {
-    //         console.log('Email sent: ' + info.response);
-    //     }
-    // })
-}
+let sendEmail = require('../functions/sendEmail')
 
 function sendEmailEachXTime(app) {
 
     let timeToSend = 10000
 
     setInterval(function () {
-        sendEmail(app);
+        sendEmail.send(app)
     }, timeToSend)
 }
 
